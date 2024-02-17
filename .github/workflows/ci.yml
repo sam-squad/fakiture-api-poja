@@ -33,3 +33,5 @@ jobs:
           distribution: 'corretto'
 
       - run: ./gradlew test
+
+      - run: chmod +x ./gradlew
