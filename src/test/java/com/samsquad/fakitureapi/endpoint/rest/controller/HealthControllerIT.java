@@ -1,5 +1,7 @@
 package com.samsquad.fakitureapi.endpoint.rest.controller;
 
+
+
 import static com.samsquad.fakitureapi.endpoint.rest.controller.health.PingController.OK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PojaGenerated
-class HealthControllerIT extends true {
+class HealthControllerIT extends FacadeIT {
 
   @Autowired PingController pingController;
   @Autowired HealthDbController healthDbController;
