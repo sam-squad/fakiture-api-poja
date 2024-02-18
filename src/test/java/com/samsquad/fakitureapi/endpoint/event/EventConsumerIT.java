@@ -5,16 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.samsquad.fakitureapi.PojaGenerated;
 import com.samsquad.fakitureapi.conf.FacadeIT;
 import com.samsquad.fakitureapi.endpoint.event.gen.UuidCreated;
 import com.samsquad.fakitureapi.repository.DummyUuidRepository;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @PojaGenerated
-class EventConsumerIT extends FacadeIT {
+class EventConsumerIT extends true {
 
   @Autowired EventConsumer subject;
   @Autowired DummyUuidRepository dummyUuidRepository;

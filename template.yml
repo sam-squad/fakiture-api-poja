@@ -25,19 +25,26 @@ Globals:
         AWS_S3_BUCKET: !Sub '{{resolve:ssm:/fakiture-api-poja/${Env}/s3/bucket-name}}'
         AWS_SES_SOURCE: noreply@nowhere.com
         DRIVERCLASSNAME: org.sqlite.JDBC
-        SPRING_JPA_DATABASEPLATFORM: com.samsquad.fakitureapi.repository.conf.SqliteDialect
+        SPRING_JPA_DATABASEPLATFORM: org.hibernate.community.dialect.SQLiteDialect
         DATABASE_URL: jdbc:sqlite:/mnt/efs/sqlite-data:db?cache=shared
         DATABASE_USERNAME: sa
         DATABASE_PASSWORD: sa
         
         
-        JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Dspring.main.lazy-initialization=true -Dspring.datasource.max-active=5 -Dspring.datasource.max-idle=1 -Dspring.datasource.min-idle=1 -Dspring.datasource.initial-size=1
+        JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Dspring.main.lazy-initialization=true -Dspring.data.jpa.repositories.bootstrap-mode=lazy -Dspring.datasource.max-active=5 -Dspring.datasource.max-idle=1 -Dspring.datasource.min-idle=1 -Dspring.datasource.initial-size=1
 
 Parameters:
   Env:
     Type: String
 
 Resources:
+  FrontalServerlessRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      BinaryMediaTypes:
+        - "*~1*"
+
   FrontalFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -53,6 +60,8 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: ANY
+            RestApiId:
+              Ref: FrontalServerlessRestApi
 
   WorkerFunction:
     Type: AWS::Serverless::Function
@@ -88,7 +97,7 @@ Resources:
     Properties:
       Name: !Join [ '', [ /fakiture-api-poja/, !Ref Env, /api/url ] ]
       Type: String
-      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+      Value: !Sub "https://${FrontalServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
 
 Outputs:
   ApiUrl:
