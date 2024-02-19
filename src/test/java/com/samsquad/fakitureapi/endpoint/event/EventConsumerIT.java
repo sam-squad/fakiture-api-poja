@@ -1,14 +1,16 @@
 package com.samsquad.fakitureapi.endpoint.event;
 
+
+
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.samsquad.fakitureapi.PojaGenerated;
 import com.samsquad.fakitureapi.conf.FacadeIT;
 import com.samsquad.fakitureapi.endpoint.event.gen.UuidCreated;
 import com.samsquad.fakitureapi.repository.DummyUuidRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +29,11 @@ class EventConsumerIT extends FacadeIT {
     var payloadReceived = om.readValue(om.writeValueAsString(uuidCreated), UuidCreated.class);
 
     subject.accept(
-        List.of(
-            new EventConsumer.AcknowledgeableTypedEvent(
-                new EventConsumer.TypedEvent(
-                    "com.samsquad.fakitureapi.endpoint.event.gen.UuidCreated", payloadReceived),
-                () -> {})));
+            List.of(
+                    new EventConsumer.AcknowledgeableTypedEvent(
+                            new EventConsumer.TypedEvent(
+                                    "com.cielux.api.endpoint.event.gen.UuidCreated", payloadReceived),
+                            () -> {})));
 
     Thread.sleep(2_000);
     var saved = dummyUuidRepository.findById(uuid).orElseThrow();

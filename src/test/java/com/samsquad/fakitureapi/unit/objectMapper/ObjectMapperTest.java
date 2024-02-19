@@ -1,11 +1,12 @@
 package com.samsquad.fakitureapi.unit.objectMapper;
 
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.samsquad.fakitureapi.conf.FacadeIT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
-import com.samsquad.fakitureapi.conf.FacadeIT;
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,21 +16,21 @@ public class ObjectMapperTest extends FacadeIT {
   ObjectMapper newInstance = new ObjectMapper();
 
   SomeClassWithDatetimeField someClassWithDatetimeField =
-      new SomeClassWithDatetimeField(Instant.now());
+          new SomeClassWithDatetimeField(Instant.now());
 
   @Test
   void new_instance_throws_on_java_datetime_module() {
     String jsonString = someClassWithDatetimeField.toJsonString();
     assertThrows(
-        InvalidDefinitionException.class,
-        () -> newInstance.readValue(jsonString, SomeClassWithDatetimeField.class));
+            InvalidDefinitionException.class,
+            () -> newInstance.readValue(jsonString, SomeClassWithDatetimeField.class));
   }
 
   @Test
   void injected_bean_handles_java_datetime_module() {
     assertDoesNotThrow(
-        () ->
-            injectedBean.readValue(
-                someClassWithDatetimeField.toJsonString(), SomeClassWithDatetimeField.class));
+            () ->
+                    injectedBean.readValue(
+                            someClassWithDatetimeField.toJsonString(), SomeClassWithDatetimeField.class));
   }
 }

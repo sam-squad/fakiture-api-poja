@@ -1,5 +1,7 @@
 package com.samsquad.fakitureapi.endpoint.rest.controller;
 
+
+
 import static com.samsquad.fakitureapi.endpoint.rest.controller.health.PingController.OK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
